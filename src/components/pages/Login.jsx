@@ -13,12 +13,14 @@ import {
 import { Mail, Lock, LibraryBooks } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({setIsUserAuthenticated}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({}); 
   const [serverError, setServerError] = useState(""); 
+    const navigate = useNavigate();
   const validateForm = () => {
     const newErrors = {};
     if (!email) {
@@ -44,10 +46,11 @@ const Login = () => {
         email,
         password,
       },{withCredentials:true});
-      console.log(response,'re')
-
+      setIsUserAuthenticated(true)
+      navigate('/UserDashBoard');
       alert("Login successful!");
       localStorage.setItem("token", response.data.token);
+
       setServerError("");
       setPassword('')
       setEmail('')

@@ -16,6 +16,9 @@ import AddBookModal from "../adminModals/AddBookModal";
 import BorrowingsModal from "../adminModals/BorrowingsModal";
 import NewOrdersModal from "../adminModals/NewOrdersModal";
 import BooksMap from "../adminModals/BooksMap";
+import BorrowingsOverview from "../adminModals/BorrowingsOverview";
+import PendingUsers from "../adminModals/PendingUsers";
+
 
 const AdminDashboard = () => {
   const [addBookOpen, setAddBookOpen] = useState(false);
@@ -50,7 +53,8 @@ const AdminDashboard = () => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ borderRadius: 2 }}>
-            <Card onClick={openBorrowingsModal} sx={{ cursor: "pointer" }}>
+
+            <Card  sx={{ cursor: "pointer" }}>
               <CardContent>
                 <Typography
                   variant="h5"
@@ -58,22 +62,23 @@ const AdminDashboard = () => {
                   gutterBottom
                   sx={{ display: "flex", alignItems: "center", mb: 2 }}
                 >
-                  <LibraryBooksIcon sx={{ mr: 1 }} /> Borrowings
+                  <LibraryBooksIcon sx={{ mr: 1 }} /> Returned And Delivered Orders
                 </Typography>
                 <Typography variant="body1">
-                  Total Active Borrowings: <strong>25</strong>
+                <BorrowingsOverview/>
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
                   Last updated: 2 hours ago
                 </Typography>
               </CardContent>
             </Card>
+
           </Paper>
         </Grid>
 
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ borderRadius: 2 }}>
-            <Card onClick={openNewOrdersModal} sx={{ cursor: "pointer" }}>
+            <Card  sx={{ cursor: "pointer" }}>
               <CardContent>
                 <Typography
                   variant="h5"
@@ -83,12 +88,7 @@ const AdminDashboard = () => {
                 >
                   <ShoppingCartIcon sx={{ mr: 1 }} /> New Orders
                 </Typography>
-                <Typography variant="body1">
-                  Pending Orders: <strong>10</strong>
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Last checked: 30 minutes ago
-                </Typography>
+              <PendingUsers/>
               </CardContent>
             </Card>
           </Paper>
