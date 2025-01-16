@@ -11,14 +11,16 @@ import {
   Alert,
 } from "@mui/material";
 import { Mail, Lock, LibraryBooks } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
+const AdminLogin = ({ setIsAdminAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({}); 
   const [serverError, setServerError] = useState(""); 
+  const navigate = useNavigate();
+
   const validateForm = () => {
     const newErrors = {};
     if (!email) {
@@ -40,17 +42,20 @@ const Login = () => {
     if (!validateForm()) return; 
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/login", {
+      const response = await axios.post("http://localhost:5000/api/admin/login", {
         email,
         password,
       },{withCredentials:true});
-      console.log(response,'re')
-
-      alert("Login successful!");
-      localStorage.setItem("token", response.data.token);
+      
+      setIsAdminAuthenticated(true);
+      alert("Login successful!")
+      
+   
       setServerError("");
       setPassword('')
       setEmail('')
+
+      navigate("/Admindashboard");
     } catch (error) {
       setServerError(error.response?.data?.message || "Login failed");
     }
@@ -89,11 +94,11 @@ const Login = () => {
           </Avatar>
 
           <Typography component="h1" variant="h4" fontWeight="bold" gutterBottom>
-            Welcome Back
+            Admin
           </Typography>
 
           <Typography variant="body1" color="text.secondary" mb={4} textAlign="center">
-            Please sign in to access your library account
+            Please sign in to access your Admin panel
           </Typography>
 
           {serverError && (
@@ -160,21 +165,7 @@ const Login = () => {
             >
               Sign In
             </Button>
-            <Box sx={{ textAlign: "center" }}>
-              <Typography variant="body2" color="text.secondary">
-                Don't have an account?{" "}
-                <Link
-                  to="/register"
-                  style={{
-                    textDecoration: "none",
-                    fontWeight: "500",
-                    color: "#1976d2",
-                  }}
-                >
-                  Create an account
-                </Link>
-              </Typography>
-            </Box>
+           
           </Box>
         </Paper>
       </Box>
@@ -182,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;
